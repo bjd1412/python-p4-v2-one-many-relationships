@@ -1,8 +1,8 @@
-"""initial migration
+"""fix migration
 
-Revision ID: d498f9062840
+Revision ID: cd8c35a93dda
 Revises: 
-Create Date: 2024-08-26 01:50:29.188898
+Create Date: 2024-08-26 02:50:50.422632
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd498f9062840'
+revision = 'cd8c35a93dda'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,12 +28,16 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('orientation', sa.DateTime(), nullable=True),
     sa.Column('forms_complete', sa.Boolean(), nullable=True),
+    sa.Column('employee_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['employee_id'], ['employees.id'], name=op.f('fk_onboardings_employee_id_employees')),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('year', sa.Integer(), nullable=True),
     sa.Column('summary', sa.String(), nullable=True),
+    sa.Column('employee_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['employee_id'], ['employees.id'], name=op.f('fk_reviews_employee_id_employees')),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
